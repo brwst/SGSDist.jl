@@ -12,13 +12,13 @@ For more information on the form of the SGS distribution used in this package, s
 
 `SGSDist.jl` is not yet registered, so one may install with the Julia package manager by issuing `using Pkg; Pkg.add("https://github.com/brwst/SGSDist.jl")` or:
 
-```julia
+```
 (v1.3) pkg> add https://github.com/brwst/SGSDist.jl
 ```
 
 You can then load the `SGSDist.jl` package with:
 
-```julia
+```
 julia> using SGSDist
 ```
 
