@@ -1,7 +1,0 @@
-julia 1.0
-DifferentialEquations
-Distributions
-QuadGK
-SpecialFunctions
-StatsBase
-Interpolations
