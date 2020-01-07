@@ -10,18 +10,10 @@ For more information on the form of the SGS distribution used in this package, s
 
 ## Installation
 
-`SGSDist.jl` is not yet distributed through the Julia package manager, so one has to install the package locally.
+`SGSDist.jl` is not yet registered, so one may install with the Julia package manager by issuing `using Pkg; Pkg.add("https://github.com/brwst/SGSDist.jl")` or:
 
-First, clone the repository to your local machine:
-
-```bash
-git clone git@github.com:brwst/SGSDist.jl.git
-```
-
-Then, add the directory that contains the repository to the Julia `LOAD_PATH` by editing the `startup.jl` file located in `~/.julia/config`:
-
-```
-push!(LOAD_PATH, "/path/to/dir/")
+```julia
+(v1.3) pkg> add https://github.com/brwst/SGSDist.jl
 ```
 
 You can then load the `SGSDist.jl` package with:
