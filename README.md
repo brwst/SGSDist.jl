@@ -34,5 +34,5 @@ julia> using SGSDist
 [docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
 [docs-stable-url]: https://brwst.github.io/SGSDist.jl/stable
 
-[travis-img]: https://travis-ci.org/brwst/SGSDist.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/brwst/SGSDist.jl
+[travis-img]: https://travis-ci.com/brwst/SGSDist.jl.svg?branch=master
+[travis-url]: https://travis-ci.com/brwst/SGSDist.jl
