@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Examples · SGSDist.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">SGSDist.jl</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Examples</a><ul class="internal"><li><a class="tocitem" href="#Create-an-SGS-distribution-1"><span>Create an SGS distribution</span></a></li><li><a class="tocitem" href="#Fit-an-SGS-distribution-from-data-1"><span>Fit an SGS distribution from data</span></a></li><li><a class="tocitem" href="#Markov-processes-1"><span>Markov processes</span></a></li><li><a class="tocitem" href="#Random-number-generation-1"><span>Random number generation</span></a></li></ul></li><li><a class="tocitem" href="../library/">Library</a></li><li><a class="tocitem" href="../api/">Index</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Examples</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Examples</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/brwst/SGSDist.jl/blob/master/docs/src/examples.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Examples-1"><a class="docs-heading-anchor" href="#Examples-1">Examples</a><a class="docs-heading-anchor-permalink" href="#Examples-1" title="Permalink"></a></h1><h2 id="Create-an-SGS-distribution-1"><a class="docs-heading-anchor" href="#Create-an-SGS-distribution-1">Create an SGS distribution</a><a class="docs-heading-anchor-permalink" href="#Create-an-SGS-distribution-1" title="Permalink"></a></h2><p>One may create an SGS distribution by fitting the distribution to known statistics by the method of moments. For example, to create an SGS distribution with mean zero, a variance and skewness of 1 and a kurtosis of 5, issue:</p><pre><code class="language-julia">julia&gt; using SGSDist
+
+julia&gt; d = fit(SGS, 1, 1, 5)
+SGS{Float64}(E=0.6236095644623235, b=1.1709106481844573, g=0.48997894350611143)</code></pre><p>Here, <code>d</code> is an SGS distribution that has been fitted to the moments specified with parameters <code>E</code>, <code>g</code> and <code>b</code>.</p><p>By loading the <code>Plots.jl</code> package, one can plot this SGS pdf:</p><pre><code class="language-julia">julia&gt; using Plots
+
+julia&gt; x = collect(-6:0.01:6)
+1201-element Array{Float64,1}:
+ -6.0
+ -5.99
+ -5.98
+ -5.97
+ -5.96
+ -5.95
+ -5.94
+  ⋮   
+  5.94
+  5.95
+  5.96
+  5.97
+  5.98
+  5.99
+  6.0
+
+julia&gt; plot(x, pdf.(d, x))
+</code></pre><p><img src="../sgs_pdf.png" alt="Sample SGS pdf"/></p><h2 id="Fit-an-SGS-distribution-from-data-1"><a class="docs-heading-anchor" href="#Fit-an-SGS-distribution-from-data-1">Fit an SGS distribution from data</a><a class="docs-heading-anchor-permalink" href="#Fit-an-SGS-distribution-from-data-1" title="Permalink"></a></h2><p>An SGS distribution may be also be fit from climate data. For example, one may create an SGS distribution by fitting the sample reanalysis time series provided by the function <a href="../library/#SGSDist.air"><code>air()</code></a>:</p><pre><code class="language-julia">julia&gt; air()
+6408-element Array{Float64,1}:
+  0.67547214
+  0.8308915  
+  0.19012427
+ -0.20711477
+ -0.10181273
+  0.7421673  
+  0.22026125
+  ⋮          
+  0.3421846  
+  0.044188347
+  0.2433472  
+  0.4460243  
+  1.4941149  
+  0.49388295
+ -0.052520715
+
+julia&gt; d = fit(SGS, air())
+SGS{Float64}(E=0.36623331624359673, b=0.7133796999284913, g=-1.1648873051087967)
+
+julia&gt; plot(x, pdf.(d, x))
+
+julia&gt; using StatsPlots
+
+julia&gt; hist!(x)
+</code></pre><p><img src="../air_pdf.png" alt="Sample air() pdf"/></p><h2 id="Markov-processes-1"><a class="docs-heading-anchor" href="#Markov-processes-1">Markov processes</a><a class="docs-heading-anchor-permalink" href="#Markov-processes-1" title="Permalink"></a></h2><h3 id="Correlated-and-additive-multiplicative-(CAM)-noise-model-1"><a class="docs-heading-anchor" href="#Correlated-and-additive-multiplicative-(CAM)-noise-model-1">Correlated and additive multiplicative (CAM) noise model</a><a class="docs-heading-anchor-permalink" href="#Correlated-and-additive-multiplicative-(CAM)-noise-model-1" title="Permalink"></a></h3><p>One may create a time series via Markov process that represents the statistics of a given SGS distribution. First, specify the SGS distribution – here we create an SGS distribution with variance and skewness of 1 and (excess) kurtosis of 5.</p><pre><code class="language-julia">julia&gt; d = fit(SGS, 1, 1, 5)
+SGS{Float64}(E=0.6236095644623235, b=1.1709106481844573, g=0.48997894350611143)</code></pre><p>We can produce a time series using the <code>CAM1D()</code> function, which corresponds to the one-dimensional correlated additive and multiplicative (CAM) noise model described in Sardeshmukh and Sura (2009). The CAM noise model is able to reproduce non-Gaussian statistics that are seen in climate observations of daily atmospheric variables.</p><pre><code class="language-julia">julia&gt; n = 1000  # length of time series
+1000
+
+julia&gt; sol = CAM1D(d, n)
+retcode: Success
+Interpolation: 1st order linear
+t: 1001-element Array{Float64,1}:
+  0.0                 
+  0.041666666666666664
+  0.08333333333333333
+  0.125               
+  0.16666666666666666
+  ⋮                   
+ 41.49999999999982    
+ 41.54166666666649    
+ 41.58333333333315    
+ 41.624999999999815   
+ 41.625               
+u: 1001-element Array{Array{Float64,1},1}:
+ [0.0]      
+ [0.122174]
+ [0.313727]
+ [0.477212]
+ [1.04692]  
+ ⋮          
+ [-0.636782]
+ [-0.309111]
+ [-0.154719]
+ [-0.290622]
+ [-0.290621]
+
+julia&gt; plot(sol)
+</code></pre><p><img src="../cam1d_markov.png" alt="CAM1D Markov process time series"/></p><p>One may also change the time step, <code>dt</code>, as well as the damping term, <code>λ</code>. Moreover, a seed may be specified in order to reproduce a time series over subsequent runs.</p><pre><code class="language-julia">julia&gt; sol = CAM1D(d, n, dt=1/12, λ=0.5, seed=42)
+retcode: Success
+Interpolation: 1st order linear
+t: 1001-element Array{Float64,1}:
+  0.0                
+  0.08333333333333333
+  0.16666666666666666
+  0.25               
+  0.3333333333333333
+  0.41666666666666663
+  0.49999999999999994
+  ⋮                  
+ 82.83333333333299   
+ 82.91666666666632   
+ 82.99999999999964   
+ 83.08333333333297   
+ 83.1666666666663    
+ 83.24999999999963   
+ 83.25               
+u: 1001-element Array{Array{Float64,1},1}:
+ [0.0]                 
+ [-0.05538507236046933]
+ [0.3759078513765658]  
+ [0.31482891888314435]
+ [0.2586995978771357]  
+ [0.006314400534034209]
+ [0.0819076515551696]  
+ ⋮                     
+ [0.6914165604620272]  
+ [1.2048828846162347]  
+ [0.6995798768325541]  
+ [0.541755324779944]   
+ [0.5939196502928672]  
+ [0.6785936302181322]  
+ [0.6785940957553153]  
+
+julia&gt; plot(sol)
+</code></pre><p><img src="../cam1d_arg_markov.png" alt="CAM1D Markov process time series with arguments"/></p><h3 id="Hasselmann&#39;s-model-1"><a class="docs-heading-anchor" href="#Hasselmann&#39;s-model-1">Hasselmann&#39;s model</a><a class="docs-heading-anchor-permalink" href="#Hasselmann&#39;s-model-1" title="Permalink"></a></h3><p>It is also possible to create a Markov process time series using the Hasselmann (1976) climate model, described in:</p><blockquote><p>Hasselmann, K., 1976: Stochastic climate models Part I. Theory. <em>Tellus</em>, <strong>28</strong>, 473–485, <a href="https://doi.org/10.1111/j.2153-3490.1976.tb00696.x">https://doi.org/10.1111/j.2153-3490.1976.tb00696.x</a>.</p></blockquote><p>The Hasselmann Markov process – which is an AR(1) process – produces a time series that is normally distributed.</p><pre><code class="language-julia">julia&gt; n = 1000  # length of time series
+1000
+
+julia&gt; sol = Hasselmann1D(n)
+retcode: Success
+Interpolation: 1st order linear
+t: 1001-element Array{Float64,1}:
+  0.0                 
+  0.041666666666666664
+  0.08333333333333333
+  0.125               
+  0.16666666666666666
+  0.20833333333333331
+  0.24999999999999997
+  ⋮                   
+ 41.416666666666494   
+ 41.45833333333316    
+ 41.49999999999982    
+ 41.54166666666649    
+ 41.58333333333315    
+ 41.624999999999815   
+ 41.625               
+u: 1001-element Array{Array{Float64,1},1}:
+ [0.0]                
+ [0.02634147381570931]
+ [0.06909671634959474]
+ [0.311743726899033]  
+ [0.5943736799301251]
+ [0.4215357023451997]
+ [0.2506514745054867]
+ ⋮                    
+ [-0.7733132505027923]
+ [-0.8065075584943057]
+ [-0.762325615339476]
+ [-0.9280604718015151]
+ [-1.2373636151238154]
+ [-1.243929957136598]
+ [-1.2439305063701647]
+
+julia&gt; plot(sol)</code></pre><p><img src="../hasselmann1d_markov.png" alt="Hasselmann1D Markov process time series"/></p><p>Again one may specify the time step, damping terms and the seed used for the random number generation.</p><pre><code class="language-julia">julia&gt; sol = Hasselmann1D(n, dt=1/12, λ=0.5, seed=42)
+retcode: Success
+Interpolation: 1st order linear
+t: 1001-element Array{Float64,1}:
+  0.0                
+  0.08333333333333333
+  0.16666666666666666
+  0.25               
+  0.3333333333333333
+  0.41666666666666663
+  0.49999999999999994
+  ⋮                  
+ 82.83333333333299   
+ 82.91666666666632   
+ 82.99999999999964   
+ 83.08333333333297   
+ 83.1666666666663    
+ 83.24999999999963   
+ 83.25               
+u: 1001-element Array{Array{Float64,1},1}:
+ [0.0]                 
+ [-0.13005535542166105]
+ [0.04828669603525988]
+ [0.6586911660509708]  
+ [0.47664314043490363]
+ [0.2527905702593072]  
+ [0.5063085613562421]  
+ ⋮                     
+ [-0.470018895671266]  
+ [-0.6640224731670596]
+ [-0.6412697125734017]
+ [-0.8226707386234937]
+ [-0.9240097641730842]
+ [-0.3550868399241891]
+ [-0.3550865369728031]
+
+julia&gt; plot(sol)
+</code></pre><p><img src="../hasselmann1d_arg_markov.png" alt="Hasselmann1D Markov process time series"/></p><h2 id="Random-number-generation-1"><a class="docs-heading-anchor" href="#Random-number-generation-1">Random number generation</a><a class="docs-heading-anchor-permalink" href="#Random-number-generation-1" title="Permalink"></a></h2><p>Produce a random number or an array of random numbers drawn from the SGS distribution <code>d</code> by invoking <code>rand()</code>.</p><pre><code class="language-julia">julia&gt; rand(d)
+-0.6568019443675626
+
+julia&gt; rand(d, 10)
+10-element Array{Float64,1}:
+ -0.6658576564565255
+ -0.182584214456065  
+ -0.3849235898350698
+ -1.8058720924121987
+  0.08814146377788976
+  0.4741505815188713
+  0.20989773773209539
+  0.37743678587708196
+ -0.19880370169821895
+  1.0225965534875916</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../library/">Library »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 7 January 2020 15:34">Tuesday 7 January 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
