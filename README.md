@@ -19,7 +19,7 @@ For more information on the form of the SGS distribution used in this package, s
 You can then load the `SGSDist.jl` package with:
 
 ```julia
-using SGSDist
+julia> using SGSDist
 ```
 
 ## Documentation
