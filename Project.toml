@@ -1,6 +1,7 @@
 name = "SGSDist"
 uuid = "50286f4b-bf9b-5917-88e7-ddf68187ddd0"
 version = "0.1.0"
+authors = ["Bobby West"]
 
 [deps]
 DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
